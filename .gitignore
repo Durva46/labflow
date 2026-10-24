@@ -1,0 +1,60 @@
+# dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+
+# builds
+dist/
+build/
+frontend/dist/
+backend/dist/
+*.tsbuildinfo
+
+# databases & backups (never commit real records)
+*.db
+*.db-journal
+*.db-wal
+*.sqlite
+*.sqlite3
+backups/
+dumps/
+*.dump
+*.sql.gz
+
+# uploaded / temporary spreadsheets
+uploads/
+tmp/
+temp/
+*.xlsx
+*.xls
+*.csv
+!docs/samples/**/*.csv
+
+# test artefacts
+coverage/
+test-results/
+playwright-report/
+
+# logs
+logs/
+*.log
+npm-debug.log*
+
+# prisma dev-generated schema
+backend/prisma/schema.dev.prisma
+
+# editor / os
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
