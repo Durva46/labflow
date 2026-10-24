@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes } from 'react';
-import { cn } from '../lib/cn';
+import { ButtonHTMLAttributes, cloneElement, isValidElement, ReactElement } from 'react';
+import { cn } from '../../lib/cn';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
 type Size = 'sm' | 'md' | 'lg';
@@ -7,6 +7,7 @@ type Size = 'sm' | 'md' | 'lg';
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   size?: Size;
+  asChild?: boolean;
 }
 
 const base =
@@ -30,13 +31,20 @@ export function Button({
   variant = 'primary',
   size = 'md',
   type = 'button',
+  asChild = false,
+  children,
   ...props
 }: ButtonProps) {
+  const classes = cn(base, variants[variant], sizes[size], className);
+  if (asChild && isValidElement(children)) {
+    const child = children as ReactElement<{ className?: string }>;
+    return cloneElement(child, {
+      className: cn(classes, child.props.className),
+    });
+  }
   return (
-    <button
-      type={type}
-      className={cn(base, variants[variant], sizes[size], className)}
-      {...props}
-    />
+    <button type={type} className={classes} {...props}>
+      {children}
+    </button>
   );
 }

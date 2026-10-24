@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { currentPeriod } from './format';
+import { currentPeriod } from '../lib/format';
 
 interface Period {
   month: number;

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { EmptyState } from '../components/ui/EmptyState';
-import { Button } from '../components/ui/Button';
 
 export function NotFoundPage() {
   const navigate = useNavigate();

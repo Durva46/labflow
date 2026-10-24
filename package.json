@@ -10,6 +10,9 @@
     "dev": "concurrently -n api,web -c blue,green \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
     "test": "npm --prefix backend test && npm --prefix frontend test",
     "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "build:backend": "npm --prefix backend install && npm --prefix backend run build",
+    "build:frontend": "npm --prefix frontend install && npm --prefix frontend run build",
+    "start:backend": "npm --prefix backend start",
     "audit": "npm --prefix backend audit --omit=dev && npm --prefix frontend audit --omit=dev"
   },
   "devDependencies": {

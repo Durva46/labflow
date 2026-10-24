@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Card } from './components/ui/Card';
-import { Field } from './components/ui/Field';
-import { Input } from './components/ui/Input';
-import { Button } from './components/ui/Button';
-import type { NormalisedError } from './lib/api';
+import { Card } from '../components/ui/Card';
+import { Field } from '../components/ui/Field';
+import { Input } from '../components/ui/Input';
+import { Button } from '../components/ui/Button';
+import type { NormalisedError } from '../lib/api';
 
 export function LoginPage() {
   const { login } = useAuth();
@@ -19,7 +19,7 @@ export function LoginPage() {
   const returnTo =
     (location.state as { returnTo?: string } | null)?.returnTo || '/';
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setBusy(true);
     setError(null);

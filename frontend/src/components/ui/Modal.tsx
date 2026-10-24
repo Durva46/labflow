@@ -132,3 +132,5 @@ export function ConfirmDialog({
     </Modal>
   );
 }
+
+import { Button } from './Button';

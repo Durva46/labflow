@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { apiGet, apiGetList, apiPatch, apiPost } from '../lib/api';
+import { apiGetList, apiPatch, apiPost } from '../lib/api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Table, Tbody, Td, Th, Thead, Tr } from '../components/ui/Table';

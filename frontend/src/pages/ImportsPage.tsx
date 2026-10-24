@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { apiGet, apiGetList, apiPost } from '../lib/api';
+import { apiGetList, apiPost } from '../lib/api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Table, Tbody, Td, Th, Thead, Tr } from '../components/ui/Table';
 import { Badge } from '../components/ui/Badge';
-import { Spinner } from '../components/ui/Spinner';
 import { EmptyState } from '../components/ui/EmptyState';
 import { ErrorState } from '../components/ui/ErrorState';
 import { Pagination } from '../components/ui/Pagination';
 import { usePeriod } from '../context/PeriodContext';
 import { useAuth } from '../context/AuthContext';
 import { formatBytes, formatDate } from '../lib/format';
-import type { ImportRecord, ImportResult, NormalisedError } from '../types';
+import type { ImportRecord, ImportResult } from '../types';
+import type { NormalisedError } from '../lib/api';
 
 const MAX_SIZE = 10 * 1024 * 1024;
 

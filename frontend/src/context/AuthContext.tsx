@@ -2,7 +2,6 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import {
   apiGet,
   apiPost,
-  getCsrfToken,
   registerAuthHandlers,
   setCsrfToken,
 } from '../lib/api';

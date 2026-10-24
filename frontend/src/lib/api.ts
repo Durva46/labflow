@@ -1,5 +1,5 @@
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
-import type { ApiErrorBody, ApiEnvelope, ApiListEnvelope } from '../types';
+import type { ApiErrorBody, ApiEnvelope, ApiListEnvelope, PaginationMeta } from '../types';
 
 export const apiBaseUrl =
   import.meta.env.VITE_API_BASE_URL || '/api/v1';
@@ -41,11 +41,7 @@ function isStateChanging(method?: string): boolean {
 api.interceptors.request.use((config) => {
   if (isStateChanging(config.method) && csrfToken) {
     config.headers = config.headers ?? {};
-    if (typeof (config.headers as Record<string, string>).set === 'function') {
-      (config.headers as Headers).set('X-CSRF-Token', csrfToken);
-    } else {
-      (config.headers as Record<string, string>)['X-CSRF-Token'] = csrfToken;
-    }
+    (config.headers as Record<string, string>)['X-CSRF-Token'] = csrfToken;
   }
   return config;
 });
@@ -217,4 +213,3 @@ export async function apiRequestBlob(
 }
 
 export { api };
-export type { NormalisedError };

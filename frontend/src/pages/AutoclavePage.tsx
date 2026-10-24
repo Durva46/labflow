@@ -13,7 +13,6 @@ import { Textarea } from '../components/ui/Textarea';
 import { usePeriod } from '../context/PeriodContext';
 import { useAuth } from '../context/AuthContext';
 import {
-  addMinutesToTime,
   calculateEndTime,
   formatDate,
   formatTime12h,
@@ -427,13 +426,26 @@ function AutoclaveEditDialog({
     responsibleUserId: log.responsibleUserId ?? '',
     remarks: log.remarks ?? '',
     verificationStatus: log.verificationStatus,
+  } as {
+    autoclaveStartTime: string;
+    sterilizationStartTime: string;
+    temperature: string | number;
+    pressure: string | number;
+    sterilizationDurationMinutes: string | number;
+    endTime: string;
+    endTimeOverridden: boolean;
+    responsibleUserId: string;
+    remarks: string;
+    verificationStatus: AutoclaveLog['verificationStatus'];
   });
   const [busy, setBusy] = useState(false);
 
   const computedEnd = useMemo(() => {
     if (form.endTimeOverridden) return form.endTime;
-    if (!form.sterilizationStartTime || !form.sterilizationDurationMinutes) return form.endTime;
-    return calculateEndTime(form.sterilizationStartTime, Number(form.sterilizationDurationMinutes));
+    if (!form.sterilizationStartTime || form.sterilizationDurationMinutes === '' || form.sterilizationDurationMinutes === null || form.sterilizationDurationMinutes === undefined) return form.endTime;
+    const duration = Number(form.sterilizationDurationMinutes);
+    if (!Number.isFinite(duration)) return form.endTime;
+    return calculateEndTime(form.sterilizationStartTime, duration);
   }, [form.endTimeOverridden, form.sterilizationStartTime, form.sterilizationDurationMinutes, form.endTime]);
 
   useEffect(() => {
@@ -445,13 +457,16 @@ function AutoclaveEditDialog({
   const save = async () => {
     setBusy(true);
     try {
+      const duration =
+        form.sterilizationDurationMinutes === '' || form.sterilizationDurationMinutes === null
+          ? null
+          : Number(form.sterilizationDurationMinutes);
       const payload: Record<string, unknown> = {
         autoclaveStartTime: form.autoclaveStartTime,
         sterilizationStartTime: form.sterilizationStartTime,
         temperature: form.temperature === '' ? null : Number(form.temperature),
         pressure: form.pressure === '' ? null : Number(form.pressure),
-        sterilizationDurationMinutes:
-          form.sterilizationDurationMinutes === '' ? null : Number(form.sterilizationDurationMinutes),
+        sterilizationDurationMinutes: duration,
         endTime: form.endTime,
         endTimeOverridden: form.endTimeOverridden,
         responsibleUserId: form.responsibleUserId || null,
@@ -472,11 +487,17 @@ function AutoclaveEditDialog({
   };
 
   const resetToCalculated = () => {
-    setForm((prev) => ({
-      ...prev,
-      endTimeOverridden: false,
-      endTime: calculateEndTime(prev.sterilizationStartTime, Number(prev.sterilizationDurationMinutes)),
-    }));
+    setForm((prev) => {
+      const duration = Number(prev.sterilizationDurationMinutes);
+      if (!Number.isFinite(duration)) {
+        return { ...prev, endTimeOverridden: false };
+      }
+      return {
+        ...prev,
+        endTimeOverridden: false,
+        endTime: calculateEndTime(prev.sterilizationStartTime, duration),
+      };
+    });
   };
 
   return (
@@ -515,7 +536,7 @@ function AutoclaveEditDialog({
         </div>
         <div className="grid grid-cols-2 gap-2">
           <Field label="Duration (minutes)">
-            <Input type="number" value={form.sterilizationDurationMinutes} onChange={(e) => setForm((p) => ({ ...p, sterilizationDurationMinutes: Number(e.target.value) }))} />
+            <Input type="number" value={String(form.sterilizationDurationMinutes)} onChange={(e) => setForm((p) => ({ ...p, sterilizationDurationMinutes: Number(e.target.value) }))} />
           </Field>
           <Field label="End time">
             <Input type="time" value={toTimeInputValue(form.endTime)} onChange={(e) => setForm((p) => ({ ...p, endTime: e.target.value, endTimeOverridden: true }))} onFocus={override} />

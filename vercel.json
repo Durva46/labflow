@@ -1,0 +1,12 @@
+# Vercel configuration for monorepo
+# Deploy backend as API functions or use separate deployments
+# Frontend can be deployed separately to Vercel
+version: 2
+builds:
+  - src: backend/src/index.ts
+    use: @vercel/node
+routes:
+  - src: /api/(.*)
+    dest: backend/src/index.ts
+  - src: /(.*)
+    dest: backend/src/index.ts

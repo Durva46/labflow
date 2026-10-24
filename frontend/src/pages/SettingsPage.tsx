@@ -105,7 +105,7 @@ export function SettingsPage() {
         <CardContent>
           <div className="grid gap-3 md:grid-cols-2">
             <Field label="Sample identifier header">
-              <Input value={settings.columnMapping.sampleIdentifier} onChange={(e) => updateMapping('sampleIdentifier', e.target.target.value)} />
+              <Input value={settings.columnMapping.sampleIdentifier} onChange={(e) => updateMapping('sampleIdentifier', e.target.value)} />
             </Field>
             <Field label="Sample name header">
               <Input value={settings.columnMapping.sampleName} onChange={(e) => updateMapping('sampleName', e.target.value)} />

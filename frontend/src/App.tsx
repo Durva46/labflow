@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { PeriodProvider } from './context/PeriodContext';
 import { ToastProvider } from './components/ui/Toast';
